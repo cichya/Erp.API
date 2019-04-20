@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<employees>
+	<employee>
+		<birth>1977-05-13T00:00:00</birth>
+		<firstName>James</firstName>
+		<id>1</id>
+		<lastName>Norris</lastName>
+		<salary>100.0</salary>
+		<taxNumber>1234</taxNumber>
+		<workingPosition>Prezes</workingPosition>
+	</employee>
+</employees>

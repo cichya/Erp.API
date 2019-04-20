@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.API", "Erp.API\Erp.API.csproj", "{016D08BF-3E5D-4E1C-8C27-0B82B776FE56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erp.API.Tests", "Erp.API.Tests\Erp.API.Tests.csproj", "{59266CB0-E208-465F-A631-DF6E14360561}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Erp.API.Tests", "Erp.API.Tests\Erp.API.Tests.csproj", "{59266CB0-E208-465F-A631-DF6E14360561}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
