@@ -72,7 +72,7 @@ namespace Erp.API.Controllers
 				return this.NoContent();
 			}
 
-			throw new Exception($"Failed to update user {id}");
+			throw new Exception($"Failed to update employee {id}");
 		}
 
 		[HttpDelete("{id}")]
@@ -92,7 +92,7 @@ namespace Erp.API.Controllers
 				return this.NoContent();
 			}
 
-			throw new Exception($"Failed to delete user {id}");
+			throw new Exception($"Failed to delete employee {id}");
 		}
 
 		[HttpPost]
@@ -102,10 +102,10 @@ namespace Erp.API.Controllers
 
 			if (await this.employeesRepository.Save())
 			{
-				return this.NoContent();
+				return this.CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, employee);
 			}
 
-			return this.CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, employee);
+			throw new Exception($"Failed to add new employee");
 		}
     }
 }
