@@ -42,9 +42,10 @@ namespace Erp.API.Repositories
 			return await this.dataContext.SaveChangesAsync() > 0;
 		}
 
-		public void Update(EmployeeModel entity)
+		public void Update(EmployeeModel oldEntity, EmployeeModel newEntity)
 		{
-			this.dataContext.Update(entity);
+			this.dataContext.Entry(oldEntity).State = EntityState.Detached;
+			this.dataContext.Entry(newEntity).State = EntityState.Modified;
 		}
 	}
 }

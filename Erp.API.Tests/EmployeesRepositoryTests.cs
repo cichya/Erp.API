@@ -60,13 +60,22 @@ namespace Erp.API.Tests
 
 			var empToUpdate = await this.dataContext.Employees.FirstOrDefaultAsync(x => x.Id == 2);
 
-			empToUpdate.FirstName = "xxx";
+			var newEmp = new EmployeeModel
+			{
+				Id = empToUpdate.Id,
+				Birth = empToUpdate.Birth,
+				FirstName = "xxx",
+				LastName = empToUpdate.LastName,
+				Salary = empToUpdate.Salary,
+				TaxNumber = empToUpdate.TaxNumber,
+				WorkingPosition = empToUpdate.WorkingPosition
+			};
 
-			target.Update(empToUpdate);
+			target.Update(empToUpdate, newEmp);
 
 			await target.Save();
 
-			Assert.IsTrue(await this.dataContext.Employees.AnyAsync(x => x.Id == empToUpdate.Id && x.FirstName == empToUpdate.FirstName));
+			Assert.IsTrue(await this.dataContext.Employees.AnyAsync(x => x.Id == newEmp.Id && x.FirstName == newEmp.FirstName));
 		}
 
 		[TestMethod]

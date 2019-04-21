@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Erp.API.Repositories
 {
-	interface IEmployeesRepository
+	public interface IEmployeesRepository
 	{
 		void Add(EmployeeModel entity);
 		void Delete(EmployeeModel entity);
-		void Update(EmployeeModel entity);
+		void Update(EmployeeModel oldEntity, EmployeeModel newEntity);
 		Task<EmployeeModel> Get(int id);
 		Task<List<EmployeeModel>> Get();
 		Task<bool> Save();
