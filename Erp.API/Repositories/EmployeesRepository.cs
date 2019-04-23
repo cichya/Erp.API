@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Erp.API.Data;
+using Erp.API.Helpers;
 using Erp.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,9 +33,26 @@ namespace Erp.API.Repositories
 			return await this.dataContext.Employees.FirstOrDefaultAsync(x => x.Id == id);
 		}
 
-		public async Task<List<EmployeeModel>> Get()
+		public async Task<PagedDataList<EmployeeModel>> Get(FilterParams filterParams)
 		{
-			return await this.dataContext.Employees.ToListAsync();
+			var employees = this.dataContext.Employees.AsQueryable();
+
+			if (!string.IsNullOrEmpty(filterParams.LastName))
+			{
+				employees = employees.Where(x => x.LastName.ToLower() == filterParams.LastName.ToLower());
+			}
+
+			if (!string.IsNullOrEmpty(filterParams.TaxNumber))
+			{
+				employees = employees.Where(x => x.TaxNumber.ToString() == filterParams.TaxNumber);
+			}
+
+			if (!string.IsNullOrEmpty(filterParams.WorkingPosition))
+			{
+				employees = employees.Where(x => x.WorkingPosition.ToLower() == filterParams.WorkingPosition.ToLower());
+			}
+
+			return await PagedDataList<EmployeeModel>.CreateAsync(employees, filterParams.PageNumber, filterParams.PageSize);
 		}
 
 		public async Task<bool> Save()

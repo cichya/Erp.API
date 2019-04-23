@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Erp.API.DTOs;
+using Erp.API.Helpers;
 using Erp.API.Models;
 using Erp.API.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -26,11 +27,13 @@ namespace Erp.API.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetEmployees()
+		public async Task<IActionResult> GetEmployees([FromQuery]FilterParams filterParams)
 		{
-			var employees = await this.employeesRepository.Get();
+			var employees = await this.employeesRepository.Get(filterParams);
 
 			var employeesToReturn = this.mapper.Map<IEnumerable<EmployeeForListDto>>(employees);
+
+			this.Response.AddPagination(employees.CurrentPage, employees.PageSize, employees.TotalCount, employees.TotalPages);
 
 			return this.Ok(employeesToReturn);
 		}
