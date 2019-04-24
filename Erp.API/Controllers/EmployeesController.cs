@@ -48,9 +48,7 @@ namespace Erp.API.Controllers
 				return NotFound();
 			}
 
-			var employeeForReturn = this.mapper.Map<EmployeeForListDto>(employee);
-
-			return this.Ok(employeeForReturn);
+			return this.Ok(employee);
 		}
 
 		[HttpPut("{id}")]
@@ -105,7 +103,9 @@ namespace Erp.API.Controllers
 
 			if (await this.employeesRepository.Save())
 			{
-				return this.CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, employee);
+				var employeeToReturn = this.mapper.Map<EmployeeForListDto>(employee);
+
+				return this.CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, employeeToReturn);
 			}
 
 			throw new Exception($"Failed to add new employee");
