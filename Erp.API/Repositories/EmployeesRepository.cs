@@ -37,19 +37,19 @@ namespace Erp.API.Repositories
 		{
 			var employees = this.dataContext.Employees.AsQueryable();
 
-			if (!string.IsNullOrEmpty(filterParams.LastName))
+			if (!string.IsNullOrEmpty(filterParams.LastNameFilter))
 			{
-				employees = employees.Where(x => x.LastName.ToLower() == filterParams.LastName.ToLower());
+				employees = employees.Where(x => x.LastName.ToLower() == filterParams.LastNameFilter.ToLower());
 			}
 
-			if (!string.IsNullOrEmpty(filterParams.TaxNumber))
+			if (!string.IsNullOrEmpty(filterParams.TaxNumberFilter))
 			{
-				employees = employees.Where(x => x.TaxNumber.ToString() == filterParams.TaxNumber);
+				employees = employees.Where(x => x.TaxNumber.ToString() == filterParams.TaxNumberFilter);
 			}
 
-			if (!string.IsNullOrEmpty(filterParams.WorkingPosition))
+			if (!string.IsNullOrEmpty(filterParams.WorkingPositionFilter))
 			{
-				employees = employees.Where(x => x.WorkingPosition.ToLower() == filterParams.WorkingPosition.ToLower());
+				employees = employees.Where(x => x.WorkingPosition.ToLower() == filterParams.WorkingPositionFilter.ToLower());
 			}
 
 			return await PagedDataList<EmployeeModel>.CreateAsync(employees, filterParams.PageNumber, filterParams.PageSize);

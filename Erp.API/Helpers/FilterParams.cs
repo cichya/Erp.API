@@ -17,8 +17,8 @@ namespace Erp.API.Helpers
 			set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
 		}
 
-		public string LastName { get; set; }
-		public string TaxNumber { get; set; }
-		public string WorkingPosition { get; set; }
+		public string LastNameFilter { get; set; }
+		public string TaxNumberFilter { get; set; }
+		public string WorkingPositionFilter { get; set; }
 	}
 }
