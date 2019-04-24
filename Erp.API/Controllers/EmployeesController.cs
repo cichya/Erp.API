@@ -70,7 +70,9 @@ namespace Erp.API.Controllers
 
 			if (await this.employeesRepository.Save())
 			{
-				return this.NoContent();
+				var employeeToReturn = this.mapper.Map<EmployeeForListDto>(employee);
+
+				return this.CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, employeeToReturn);
 			}
 
 			throw new Exception($"Failed to update employee {id}");
