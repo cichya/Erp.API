@@ -1,12 +1,1 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<employees>
-	<employee>
-		<birth>1977-05-13T00:00:00</birth>
-		<firstName>James</firstName>
-		<id>1</id>
-		<lastName>Norris</lastName>
-		<salary>100.0</salary>
-		<taxNumber>1234</taxNumber>
-		<workingPosition>Prezes</workingPosition>
-	</employee>
-</employees>
+﻿<ArrayOfEmployee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><employee><id>1</id><firstName>James</firstName><lastName>Norris</lastName><birth>1977-05-13T00:00:00</birth><workingPosition>Prezes</workingPosition><salary>100.0</salary><taxNumber>1234</taxNumber></employee><employee><id>2</id><firstName>dwadwadwa</firstName><lastName>Doe</lastName><birth>2019-04-22T22:00:00Z</birth><workingPosition>Developer</workingPosition><salary>100</salary><taxNumber>1234567890</taxNumber></employee><employee><id>3</id><firstName>dwadwa</firstName><lastName>Doe</lastName><birth>2019-04-22T22:00:00Z</birth><workingPosition>Developer</workingPosition><salary>100</salary><taxNumber>1234567890</taxNumber></employee></ArrayOfEmployee>
