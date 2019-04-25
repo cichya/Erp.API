@@ -64,6 +64,8 @@ namespace Erp.API.Repositories
 		{
 			this.dataContext.Entry(oldEntity).State = EntityState.Detached;
 			this.dataContext.Entry(newEntity).State = EntityState.Modified;
+
+			this.dataContext.Update(newEntity);
 		}
 	}
 }

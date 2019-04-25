@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Erp.API.Data;
 using Erp.API.Helpers;
+using Erp.API.Models;
 using Erp.API.Repositories;
+using Erp.API.Services;
+using Erp.API.XmlDataProvider;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +36,7 @@ namespace Erp.API
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase(databaseName: "EmployeeDataBase"));
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -43,6 +46,8 @@ namespace Erp.API
 			services.AddAutoMapper();
 
 			services.AddScoped<IEmployeesRepository, EmployeesRepository>();
+			services.AddScoped<IXmlService, XmlService>();
+			services.AddSingleton(typeof(IDataStore<EmployeeModel>), new XmlDataStore(new XmlService(), Configuration.GetConnectionString("DefaultConnection")));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

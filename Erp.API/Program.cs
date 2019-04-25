@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Erp.API.Data;
+using Erp.API.XmlDataProvider;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 
@@ -20,7 +23,18 @@ namespace Erp.API
 			try
 			{
 				logger.Debug("init main");
-				CreateWebHostBuilder(args).Build().Run();
+				var host = CreateWebHostBuilder(args).Build();
+
+				using (var scope = host.Services.CreateScope())
+				{
+					var services = scope.ServiceProvider;
+
+					var ctx = services.GetRequiredService<DataContext>();
+
+					DataProvider.Init(services);
+				}
+
+				host.Run();
 			}
 			catch (Exception ex)
 			{
