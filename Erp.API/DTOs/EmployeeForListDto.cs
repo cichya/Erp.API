@@ -13,6 +13,6 @@ namespace Erp.API.DTOs
 		public int Age { get; set; }
 		public string WorkingPosition { get; set; }
 		public decimal Salary { get; set; }
-		public int TaxNumber { get; set; }
+		public string TaxNumber { get; set; }
 	}
 }

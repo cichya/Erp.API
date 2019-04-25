@@ -33,7 +33,7 @@ namespace Erp.API.Tests.Services
 			{
 				new EmployeeModel
 				{
-					Birth = DateTime.Now, FirstName = "x", Id = 1, LastName = "x", Salary = 10, TaxNumber = 10, WorkingPosition = "dev"
+					Birth = DateTime.Now, FirstName = "x", Id = 1, LastName = "x", Salary = 10, TaxNumber = "10", WorkingPosition = "dev"
 				}
 			};
 

@@ -25,6 +25,6 @@ namespace Erp.API.Models
 		public decimal Salary { get; set; }
 
 		[XmlElement(ElementName = "taxNumber")]
-		public int TaxNumber { get; set; }
+		public string TaxNumber { get; set; }
 	}
 }

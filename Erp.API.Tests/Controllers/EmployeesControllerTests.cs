@@ -280,7 +280,7 @@ namespace Erp.API.Tests.Controllers
 					FirstName = "John",
 					LastName = "Doe",
 					Salary = 1000,
-					TaxNumber = 1234,
+					TaxNumber = "1234",
 					WorkingPosition = "Developer"
 				},
 				new EmployeeModel
@@ -290,7 +290,7 @@ namespace Erp.API.Tests.Controllers
 					FirstName = "Edward",
 					LastName = "Kovalsky",
 					Salary = 2000,
-					TaxNumber = 0987,
+					TaxNumber = "0987",
 					WorkingPosition = "CEO"
 				}
 			};
@@ -306,7 +306,7 @@ namespace Erp.API.Tests.Controllers
 					FirstName = "John",
 					LastName = "Doe",
 					Salary = 1000,
-					TaxNumber = 1234,
+					TaxNumber = "1234",
 					WorkingPosition = "Developer"
 				},
 				new EmployeeForListDto
@@ -316,7 +316,7 @@ namespace Erp.API.Tests.Controllers
 					FirstName = "Edward",
 					LastName = "Kovalsky",
 					Salary = 2000,
-					TaxNumber = 0987,
+					TaxNumber = "0987",
 					WorkingPosition = "CEO"
 				}
 			};
@@ -328,7 +328,7 @@ namespace Erp.API.Tests.Controllers
 				FirstName = "John",
 				LastName = "Doe",
 				Salary = 1000,
-				TaxNumber = 1234,
+				TaxNumber = "1234",
 				WorkingPosition = "Developer"
 			};
 
@@ -339,7 +339,7 @@ namespace Erp.API.Tests.Controllers
 				FirstName = "John",
 				LastName = "Doe",
 				Salary = 1000,
-				TaxNumber = 1234,
+				TaxNumber = "1234",
 				WorkingPosition = "Developer"
 			};
 

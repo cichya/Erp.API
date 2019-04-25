@@ -44,7 +44,7 @@ namespace Erp.API.Repositories
 
 			if (!string.IsNullOrEmpty(filterParams.TaxNumberFilter))
 			{
-				employees = employees.Where(x => x.TaxNumber.ToString() == filterParams.TaxNumberFilter);
+				employees = employees.Where(x => x.TaxNumber.ToLower() == filterParams.TaxNumberFilter.ToLower());
 			}
 
 			if (!string.IsNullOrEmpty(filterParams.WorkingPositionFilter))

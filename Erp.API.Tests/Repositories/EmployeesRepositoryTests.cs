@@ -25,7 +25,7 @@ namespace Erp.API.Tests
 
 			var newEmp = new EmployeeModel
 			{
-				FirstName = "New", LastName = "Employee", Birth = DateTime.Now.AddYears(-10), Salary = 10000, TaxNumber = 0987, WorkingPosition = "Junior Dev"
+				FirstName = "New", LastName = "Employee", Birth = DateTime.Now.AddYears(-10), Salary = 10000, TaxNumber = "0987", WorkingPosition = "Junior Dev"
 			};
 
 			target.Add(newEmp);
@@ -60,11 +60,11 @@ namespace Erp.API.Tests
 			{
 				new EmployeeModel()
 				{
-					Birth = DateTime.Now.AddYears(-3), FirstName = "George", LastName = "Kovalsky", Salary = 1000, TaxNumber = 1234, WorkingPosition = "CEO"
+					Birth = DateTime.Now.AddYears(-3), FirstName = "George", LastName = "Kovalsky", Salary = 1000, TaxNumber = "1234", WorkingPosition = "CEO"
 				},
 				new EmployeeModel()
 				{
-					Birth = DateTime.Now.AddYears(-5), FirstName = "John", LastName = "Doe", Salary = 2000, TaxNumber = 4567, WorkingPosition = "Developer"
+					Birth = DateTime.Now.AddYears(-5), FirstName = "John", LastName = "Doe", Salary = 2000, TaxNumber = "4567", WorkingPosition = "Developer"
 				}
 			};
 
