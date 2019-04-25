@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\database.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\database.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.4" />

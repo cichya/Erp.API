@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Erp.API.Controllers;
 using Erp.API.DTOs;
+using Erp.API.Helpers;
 using Erp.API.Models;
 using Erp.API.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -24,7 +26,10 @@ namespace Erp.API.Tests.Controllers
 		{
 			EmployeesController target = new EmployeesController(this.employeesRepository.Object, this.mapper.Object);
 
-			IActionResult result = await target.GetEmployees();
+			target.ControllerContext = new ControllerContext();
+			target.ControllerContext.HttpContext = new DefaultHttpContext();
+			
+			IActionResult result = await target.GetEmployees(null);
 
 			var okObjectResult = result as OkObjectResult;
 
@@ -39,7 +44,7 @@ namespace Erp.API.Tests.Controllers
 			Assert.IsNotNull(employees.Find(x => x.Id == 1));
 			Assert.IsNotNull(employees.Find(x => x.Id == 2));
 
-			this.employeesRepository.Verify(m => m.Get(), Times.Once);
+			this.employeesRepository.Verify(m => m.Get(It.IsAny<FilterParams>()), Times.Once);
 		}
 
 		[TestMethod]
@@ -69,7 +74,7 @@ namespace Erp.API.Tests.Controllers
 
 			var okObjectResult = result as OkObjectResult;
 
-			var employee = okObjectResult.Value as EmployeeForListDto;
+			var employee = okObjectResult.Value as EmployeeModel;
 
 			Assert.IsNotNull(employee);
 
@@ -162,9 +167,9 @@ namespace Erp.API.Tests.Controllers
 
 			IActionResult result = await target.UpdateEmployee(1, tmp);
 
-			var noContentResult = result as NoContentResult;
+			var createdAtActionResult = result as CreatedAtActionResult;
 
-			Assert.IsNotNull(noContentResult);
+			Assert.IsNotNull(createdAtActionResult);
 
 			this.employeesRepository.Verify(m => m.Update(It.IsAny<EmployeeModel>(), It.IsAny<EmployeeModel>()), Times.Once);
 			this.employeesRepository.Verify(m => m.Save(), Times.Once);
@@ -290,6 +295,8 @@ namespace Erp.API.Tests.Controllers
 				}
 			};
 
+			var pagedList = new PagedDataList<EmployeeModel>(employees, 0, 0, 0);
+
 			var employeesForList = new List<EmployeeForListDto>()
 			{
 				new EmployeeForListDto
@@ -338,7 +345,7 @@ namespace Erp.API.Tests.Controllers
 
 			var eRMock = new Mock<IEmployeesRepository>(MockBehavior.Strict);
 
-			eRMock.Setup(m => m.Get()).Returns(Task.FromResult(employees));
+			eRMock.Setup(m => m.Get(null)).Returns(Task.FromResult(pagedList));
 
 			eRMock.Setup(m => m.Get(1)).Returns(Task.FromResult(employee));
 
@@ -352,8 +359,9 @@ namespace Erp.API.Tests.Controllers
 
 			var mapMock = new Mock<IMapper>(MockBehavior.Strict);
 
-			mapMock.Setup(m => m.Map<IEnumerable<EmployeeForListDto>>(employees)).Returns(employeesForList);
-			mapMock.Setup(m => m.Map<EmployeeForListDto>(employee)).Returns(employeeForList);
+			mapMock.Setup(m => m.Map<IEnumerable<EmployeeForListDto>>(It.IsAny<EmployeeModel>())).Returns(employeesForList);
+			mapMock.Setup(m => m.Map<EmployeeForListDto>(It.IsAny<EmployeeModel>())).Returns(employeeForList);
+			mapMock.Setup(m => m.Map<IEnumerable<EmployeeForListDto>>(It.IsAny<PagedDataList<EmployeeModel>>())).Returns(employeesForList);
 
 			this.employeesRepository = eRMock;
 			this.mapper = mapMock;

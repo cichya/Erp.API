@@ -1,8 +1,11 @@
 ﻿using Erp.API.Data;
+using Erp.API.Helpers;
 using Erp.API.Models;
 using Erp.API.Repositories;
+using Erp.API.XmlDataProvider;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -40,61 +43,11 @@ namespace Erp.API.Tests
 		}
 
 		[TestMethod]
-		public async Task Delete_Test()
-		{
-			var target = new EmployeesRepository(this.dataContext);
-
-			var empToRemove = await this.dataContext.Employees.FirstOrDefaultAsync(x => x.Id == 1);
-
-			target.Delete(empToRemove);
-
-			await target.Save();
-
-			Assert.IsFalse(await this.dataContext.Employees.AnyAsync(x => x.Id == 1));
-		}
-
-		[TestMethod]
-		public async Task Update_Test()
-		{
-			var target = new EmployeesRepository(this.dataContext);
-
-			var empToUpdate = await this.dataContext.Employees.FirstOrDefaultAsync(x => x.Id == 2);
-
-			var newEmp = new EmployeeModel
-			{
-				Id = empToUpdate.Id,
-				Birth = empToUpdate.Birth,
-				FirstName = "xxx",
-				LastName = empToUpdate.LastName,
-				Salary = empToUpdate.Salary,
-				TaxNumber = empToUpdate.TaxNumber,
-				WorkingPosition = empToUpdate.WorkingPosition
-			};
-
-			target.Update(empToUpdate, newEmp);
-
-			await target.Save();
-
-			Assert.IsTrue(await this.dataContext.Employees.AnyAsync(x => x.Id == newEmp.Id && x.FirstName == newEmp.FirstName));
-		}
-
-		[TestMethod]
-		public async Task Get_By_Id_Test()
-		{
-			var target = new EmployeesRepository(this.dataContext);
-
-			var employee = await target.Get(2);
-
-			Assert.IsNotNull(employee);
-			Assert.AreEqual(2, employee.Id);
-		}
-
-		[TestMethod]
 		public async Task Get_All_Test()
 		{
 			var target = new EmployeesRepository(this.dataContext);
 
-			var employees = await target.Get();
+			var employees = await target.Get(new FilterParams());
 
 			Assert.IsNotNull(employees);
 			Assert.AreNotEqual(0, employees.Count);
@@ -116,11 +69,17 @@ namespace Erp.API.Tests
 			};
 
 			var options = new DbContextOptionsBuilder<DataContext>()
-				.UseInMemoryDatabase(databaseName: "EmployeeListDatabase")
+				.UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
 				.Options;
 
-			this.dataContext = new DataContext(options);
+			var dataStoreMock = new Mock<IDataStore<EmployeeModel>>(MockBehavior.Strict);
 
+			dataStoreMock.Setup(m => m.Add(It.IsAny<EmployeeModel>()));
+			dataStoreMock.Setup(m => m.Remove(It.IsAny<EmployeeModel>()));
+			dataStoreMock.Setup(m => m.Update(It.IsAny<EmployeeModel>()));
+			dataStoreMock.Setup(m => m.Save());
+
+			this.dataContext = new DataContext(options, dataStoreMock.Object);
 
 			foreach (var emp in employees)
 			{
