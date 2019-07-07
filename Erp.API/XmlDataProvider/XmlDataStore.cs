@@ -16,6 +16,7 @@ namespace Erp.API.XmlDataProvider
 		private readonly IXmlService xmlService;
 		private readonly string filePath;
 		private readonly IList<EmployeeModel> employees;
+		private static readonly object lockObj = new Object();
 
 		public XmlDataStore(IXmlService xmlService, string filePath)
 		{
@@ -26,7 +27,7 @@ namespace Erp.API.XmlDataProvider
 
 		public void Add(EmployeeModel entity)
 		{
-			lock (this)
+			lock (lockObj)
 			{
 				this.employees.Add(entity);
 			}
@@ -34,7 +35,7 @@ namespace Erp.API.XmlDataProvider
 
 		public void Update(EmployeeModel entity)
 		{
-			lock (this)
+			lock (lockObj)
 			{
 				var elementToUpdate = this.employees.FirstOrDefault(x => x.Id == entity.Id);
 
@@ -52,7 +53,7 @@ namespace Erp.API.XmlDataProvider
 
 		public void Remove(EmployeeModel employeeModel)
 		{
-			lock (this)
+			lock (lockObj)
 			{
 				this.employees.Remove(this.employees.FirstOrDefault(x => x.Id == employeeModel.Id));
 			}
@@ -65,7 +66,7 @@ namespace Erp.API.XmlDataProvider
 
 		private IList<EmployeeModel> LoadXml()
 		{
-			lock (this)
+			lock (lockObj)
 			{
 				return this.xmlService.LoadXml(this.filePath);
 			}
@@ -73,7 +74,7 @@ namespace Erp.API.XmlDataProvider
 
 		public void Save()
 		{
-			lock (this)
+			lock (lockObj)
 			{
 				this.xmlService.SaveXml(this.filePath, this.employees);
 			}
